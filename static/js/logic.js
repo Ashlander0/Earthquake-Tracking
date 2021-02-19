@@ -7,23 +7,27 @@ d3.json(url, function(response) {
 
 function createFeatures(data) {
 	// console.log(data);
-	var mag = 10000000;
+	var mag = [];
 	var location = [];
 
 	for (i = 0; i < Object.keys(data).length; i++) {
 		var lat = data[i].geometry.coordinates[0];
 		var lon = data[i].geometry.coordinates[1];
 		var depth = data[i].geometry.coordinates[2];
+		var place = data[i].properties.place;
+		var unix = data[i].properties.time;
+		var date = Date(unix*1000);
 		
-		// mag.push(data[i].properties.mag);
-		location.push([lat, lon]);
+		mag.push(data[i].properties.mag);
+		location.push([lon, lat]);
 	};
-	console.log(location);
+	console.log(data);
+	console.log(mag);
 
 	// Create a map object
 	var myMap = L.map("mapid", {
-		center: [37.09, -95.71],
-		zoom: 5
+		center: [0, 0],
+		zoom: 2
 	});
 	
 	L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
@@ -41,10 +45,10 @@ function createFeatures(data) {
 		fillOpacity: 0.75,
 		weight: 0,
 		fillColor: depth,
-		// Setting our circle's radius equal to the output of our markerSize function
-		// This will make our marker's size proportionate to its population
-		radius: (mag * .01)
-		}).addTo(myMap);
+		radius: (mag[i] * 25000)
+		}).bindPopup(`Date: ${date}<br/>
+					Magnitude: ${mag[i]}<br/>
+					Depth: ${depth}`).addTo(myMap);
 	}
 }
   
