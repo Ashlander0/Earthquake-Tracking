@@ -5,22 +5,6 @@ d3.json(url, function(response) {
 	createFeatures(response.features);	
 });
 
-var map = L.map("mapid", {
-	center: [45.52, -122.67],
-	zoom: 13
-});
-  
-// Adding a tile layer (the background map image) to our map
-// We use the addTo method to add objects to our map
-L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
-	attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
-	tileSize: 512,
-	maxZoom: 18,
-	zoomOffset: -1,
-	id: "mapbox/streets-v11",
-	accessToken: API_KEY
-}).addTo(map);
-
 function createFeatures(data) {
 	// console.log(data);
 	var mag = 10000000;
@@ -35,19 +19,32 @@ function createFeatures(data) {
 		location.push([lat, lon]);
 	};
 	console.log(location);
+
+	// Create a map object
+	var myMap = L.map("mapid", {
+		center: [37.09, -95.71],
+		zoom: 5
+	});
 	
-	var earthquakes = [];
-
-	for (i = 0; i < location.length; i++) {
-		earthquakes.push(
-			L.circle(location[i], {
-				color: depth[i],
-				// radius: mag[i],
-			})
-		);
-	};
-
-	var EQlayer = L.layerGroup(earthquakes);
-	EQlayer.addTo(map);
-};
-
+	L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+		attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
+		tileSize: 512,
+		maxZoom: 18,
+		zoomOffset: -1,
+		id: "mapbox/streets-v11",
+		accessToken: API_KEY
+	}).addTo(myMap);
+	
+	// Loop through the cities array and create one marker for each city object
+	for (var i = 0; i < location.length; i++) {
+		L.circle(location[i], {
+		fillOpacity: 0.75,
+		weight: 0,
+		fillColor: depth,
+		// Setting our circle's radius equal to the output of our markerSize function
+		// This will make our marker's size proportionate to its population
+		radius: (mag * .01)
+		}).addTo(myMap);
+	}
+}
+  
