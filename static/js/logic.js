@@ -29,25 +29,25 @@ function createFeatures(data) {
 	// console.log(date);
 
 	function depthColor(depth) {
-		if (depth > 500) {
+		if (depth > 200) {
 			return '#390606';
-		} else if (depth > 350) {
-			return '#4a0707';
-		} else if (depth > 200) {
-			return '#5c0909';
 		} else if (depth > 100) {
-			return '#6e0b0b';
+			return '#4a0707';
 		} else if (depth > 50) {
-			return '#800d0d';
-		} else if (depth > 20) {
-			return '#920f0f';
+			return '#5c0909';
+		} else if (depth > 25) {
+			return '#6e0b0b';
 		} else if (depth > 15) {
-			return '#a41010';
+			return '#800d0d';
 		} else if (depth > 10) {
-			return '#b51212';
+			return '#920f0f';
 		} else if (depth > 5) {
+			return '#a41010';
+		} else if (depth > 2) {
+			return '#b51212';
+		} else if (depth > 1) {
 			return '#c71414';
-		} else if (depth <= 5) {
+		} else if (depth <= 1) {
 			return '#d91616';
 		};
 	};
@@ -83,34 +83,34 @@ function createFeatures(data) {
 	// Legend
 	function legend() {
 		var depths = [{
-			limit: '<= 5',
+			limit: '<= 1',
 			color: '#d91616'
 		},{
-			limit: '5-10',
+			limit: '1-2',
 			color: '#c71414'
 		},{
-			limit: '10-15',
+			limit: '2-5',
 			color: '#b51212'
 		},{
-			limit: '15-20',
+			limit: '5-10',
 			color: '#a41010'
 		},{
-			limit: '20-50',
+			limit: '10-15',
 			color: '#920f0f'
 		},{
-			limit:'50-100',
+			limit:'15-25',
 			color:'#800d0d'
 		},{
-			limit:'100-200',
+			limit:'25-50',
 			color:'#6e0b0b'
 		},{
-			limit:'200-350',
+			limit:'50-100',
 			color:'#5c0909'
 		},{
-			limit:'350-500',
+			limit:'100-200',
 			color:'#4a0707'
 		},{
-			limit:'500+',
+			limit:'200+',
 			color:'#390606'
 		}];
 	
